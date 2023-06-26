@@ -1,3 +1,7 @@
+/**
+ * Ivan Prikhodko 301261209
+ */
+
 let app = require('./server/config/app');
 let debug = require('debug')('comp308-w2019-midterm:server');
 let http = require('http');
