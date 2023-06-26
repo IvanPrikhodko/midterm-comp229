@@ -1,3 +1,6 @@
+
+// Ivan Prikhodko 301261209
+
 // modules required for routing
 let express = require('express');
 let router = express.Router();
@@ -50,14 +53,14 @@ router.post('/add', (req, res, next) => {
   };
 
   console.log("logging var newBook", JSON.stringify(newBook, null, 2)); // Format log
-  // Use the create method of the book model to add a new book to the database
+  // Use the create to create a new book
   book.create(newBook)
     .then(() => {
       // Redirect the user back to the BookList page
       res.redirect('/books');
     })
     .catch(err => {
-      // Handle any errors that occur during the insertion process
+      // Handle errrors
       console.error(err);
       next(err);
     });
@@ -66,10 +69,11 @@ router.post('/add', (req, res, next) => {
 // GET the Book Details page in order to edit an existing Book
 router.get('/:id', (req, res, next) => {
 
-  console.log("logging req.params.id", req.params.id);
 
+  // Get ID of the Book
   const id = new mongoose.Types.ObjectId(req.params.id);
 
+  // Find Book and render Details page
   book.findById(id, (err, foundBook) => {
 
     console.log("logging foundBook", foundBook);
@@ -93,7 +97,7 @@ router.post('/:id', (req, res, next) => {
 
     const { title, description, price, author, genre } = req.body;
 
-    // Create a new book object excluding the _id property
+    // Create a new updateBook object excluding the _id property
     const updateBook = {
       Title: title,
       Description: description,
@@ -103,7 +107,7 @@ router.post('/:id', (req, res, next) => {
     };
   
     
-    // Use the create method of the book model to add a new book to the database
+    // Use findByIdAndUpdate to find the updateBook and update it accordingly
     book.findByIdAndUpdate(id, updateBook)
       .then(() => {
         // Redirect the user back to the BookList page
@@ -121,7 +125,7 @@ router.get('/delete/:id', (req, res, next) => {
 
     const id = new mongoose.Types.ObjectId(req.params.id);
     
-    // Use the create method of the book model to add a new book to the database
+    // Use the findByIDAndDelete to find and delete accordingly
     book.findByIdAndDelete(id)
       .then(() => {
         // Redirect the user back to the BookList page
